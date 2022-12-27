@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+
 import {
-  readPlayers,
+  
   readPlayersFromJsonString,
   readPlayersFromDatabase,
   displayPlayersFromJson,
   displayPlayersFromDatabase,
-  displayPlayersFromApi
+  
 } from './Players'
 
 function App() {
