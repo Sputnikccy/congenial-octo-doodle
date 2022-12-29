@@ -1,92 +1,45 @@
-// import { useState, useEffect } from 'react';
 import { useState } from 'react';
-
-// import logo from './logo.svg';
 import './App.css';
-
-// import {
-  
-//   readPlayersFromJsonString,
-//   readPlayersFromDatabase,
-//   displayPlayersFromJson,
-//   displayPlayersFromDatabase,
-  
-// } from './Players'
+//import controller 
+import { JsonController } from './players/controllers/jsonController';
+import { DbController } from './players/controllers/dbController';
+import { ApiController } from './players/controllers/apiController';
 
 function App() {
 
-  const [players, setPlayers] = useState([]);
+  const [playersComponent, setPlayersComponent] = useState([]);
   const [timestamp, setTimestamp] = useState();
 
 
-  const doGetPlayers = async () => {
+  const doGetPlayers = async (controller) => {
     const rightNow = new Date();
     setTimestamp(`Data last changed: ${rightNow.toLocaleTimeString()}`);
+    
+    //The following codes don't have to be changed if we want to use different datasources and views as all the controllers have the same methods: load data and render the view (This aspect reflects dependency principle as the controller denpends on abstractions). We can also add other controllers if needed. This applied the open/closed principle.
 
-    // let players;
-    // switch (source) {
-    //   case 'json':
-    //     players = JSON.parse(readPlayersFromJsonString());
-    //     setPlayers(displayPlayersFromJson(players))
-    //     break;
-    //   case 'database':
-    //     players = readPlayersFromDatabase();
-    //     setPlayers(displayPlayersFromDatabase(players))
-    //     break;
-    //   case 'api':
-    //     const playersResponse = await fetch('api/getPlayersFromFile/.%2Fdata%2Fplayerdata.json', {
-    //       headers: {
-    //         'accept': 'application/json'
-    //       }
-    //     });
-    //     players = JSON.parse(await playersResponse.json());
-
-        // const responseDisplay = await fetch('/ui/getApiRenderResponseDisplay', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify(players)
-        // });
-        // const responseText = await responseDisplay.text();
-        // const responseArray = JSON.parse(responseText);
-        // setPlayers(responseArray.join(''));
-        // break;
+    await controller.loadData();
+    setPlayersComponent(controller.render())
     }
-  
 
   const doPlayersClear = () => {
     setTimestamp('');
-    setPlayers([]);
+    setPlayersComponent();
   }
 
-  // const doRender = () => {
-  //   if (typeof players === 'object') {
-  //     return (
-  //       <ul>
-  //         {players}
-  //       </ul>
-  //     );
-  //   } else { 
-  //     return (
-  //       <ul dangerouslySetInnerHTML={{__html: players}} />
-  //     );
-  //   }
-  // }
-
+  
   return (
     <div className="App">
       <header className="App-header">
         <span className="last-accessed">{timestamp}</span>
         <div className='container'>
           <div className='buttons'>
-            <button onClick={() => doGetPlayers('json', '')}>
+            <button onClick={() => doGetPlayers(new JsonController())}>
               Load Players Json
             </button>
-            <button onClick={() => doGetPlayers('database', '')}>
+            <button onClick={() => doGetPlayers(new DbController())}>
               Load Players DB
             </button>
-            <button onClick={() => doGetPlayers('api', '')}>
+            <button onClick={() => doGetPlayers(new ApiController())}>
               Load Players API
             </button>
             <button onClick={() => doPlayersClear()}>
@@ -94,7 +47,7 @@ function App() {
             </button>
           </div>
           <div className={'players-list'}>
-            {doRender()}
+            {playersComponent}
           </div>
         </div>
       </header>

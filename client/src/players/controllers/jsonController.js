@@ -1,5 +1,5 @@
 import {DataFromJson}  from "../datasources/fromJson";
-import { PlayersComponent } from "../views/playersComponent";
+import {PlayersComponent } from "../views/playersComponent";
 
 
 export class JsonController{
@@ -14,9 +14,11 @@ export class JsonController{
 
         return this
     }
+    //The data source is changeable and replaceable, but will not influence the logic: apply Liskov substitution principle.
+    
 
     render = ()=>{
         return <PlayersComponent players={this.data}/>
     }
-    
+
 }

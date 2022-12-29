@@ -5,3 +5,5 @@ export class DataFromJson{
         })
     }
 }
+
+//This part is only for getting data, applying the single responsibility principle.
