@@ -4,14 +4,14 @@ import { useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 
-import {
+// import {
   
-  readPlayersFromJsonString,
-  readPlayersFromDatabase,
-  displayPlayersFromJson,
-  displayPlayersFromDatabase,
+//   readPlayersFromJsonString,
+//   readPlayersFromDatabase,
+//   displayPlayersFromJson,
+//   displayPlayersFromDatabase,
   
-} from './Players'
+// } from './Players'
 
 function App() {
 
@@ -19,58 +19,60 @@ function App() {
   const [timestamp, setTimestamp] = useState();
 
 
-  const doGetPlayers = async (source, fileName) => {
+  const doGetPlayers = async () => {
     const rightNow = new Date();
     setTimestamp(`Data last changed: ${rightNow.toLocaleTimeString()}`);
 
-    let players;
-    switch (source) {
-      case 'json':
-        players = JSON.parse(readPlayersFromJsonString());
-        setPlayers(displayPlayersFromJson(players))
-        break;
-      case 'database':
-        players = readPlayersFromDatabase();
-        setPlayers(displayPlayersFromDatabase(players))
-        break;
-      case 'api':
-        const playersResponse = await fetch('api/getPlayersFromFile/.%2Fdata%2Fplayerdata.json', {
-          headers: {
-            'accept': 'application/json'
-          }
-        });
-        players = JSON.parse(await playersResponse.json());
-        const responseDisplay = await fetch('/ui/getApiRenderResponseDisplay', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(players)
-        });
-        const responseText = await responseDisplay.text();
-        const responseArray = JSON.parse(responseText);
-        setPlayers(responseArray.join(''));
-        break;
+    // let players;
+    // switch (source) {
+    //   case 'json':
+    //     players = JSON.parse(readPlayersFromJsonString());
+    //     setPlayers(displayPlayersFromJson(players))
+    //     break;
+    //   case 'database':
+    //     players = readPlayersFromDatabase();
+    //     setPlayers(displayPlayersFromDatabase(players))
+    //     break;
+    //   case 'api':
+    //     const playersResponse = await fetch('api/getPlayersFromFile/.%2Fdata%2Fplayerdata.json', {
+    //       headers: {
+    //         'accept': 'application/json'
+    //       }
+    //     });
+    //     players = JSON.parse(await playersResponse.json());
+
+        // const responseDisplay = await fetch('/ui/getApiRenderResponseDisplay', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(players)
+        // });
+        // const responseText = await responseDisplay.text();
+        // const responseArray = JSON.parse(responseText);
+        // setPlayers(responseArray.join(''));
+        // break;
     }
-  }
+  
+
   const doPlayersClear = () => {
     setTimestamp('');
     setPlayers([]);
   }
 
-  const doRender = () => {
-    if (typeof players === 'object') {
-      return (
-        <ul>
-          {players}
-        </ul>
-      );
-    } else { 
-      return (
-        <ul dangerouslySetInnerHTML={{__html: players}} />
-      );
-    }
-  }
+  // const doRender = () => {
+  //   if (typeof players === 'object') {
+  //     return (
+  //       <ul>
+  //         {players}
+  //       </ul>
+  //     );
+  //   } else { 
+  //     return (
+  //       <ul dangerouslySetInnerHTML={{__html: players}} />
+  //     );
+  //   }
+  // }
 
   return (
     <div className="App">
@@ -98,6 +100,6 @@ function App() {
       </header>
     </div>
   );
-}
+  }
 
 export default App;

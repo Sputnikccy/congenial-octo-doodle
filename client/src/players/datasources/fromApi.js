@@ -7,7 +7,9 @@ export class DataFromApi{
               }
         })
         const players = JSON.parse(await playersResponse.json());
-
+       
         return players
     }
+   
 }
+
