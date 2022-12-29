@@ -18,4 +18,5 @@ export class JsonController{
     render = ()=>{
         return <PlayersComponent players={this.data}/>
     }
+    
 }
